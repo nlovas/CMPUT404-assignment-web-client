@@ -7,6 +7,19 @@ See requirements.org (plain-text) for a description of the project.
 
 Make a simple web-client like curl or wget
 
+Resources:
+
+To learn what argv[0] meant in python:
+https://docs.python.org/2/library/sys.html
+and
+http://stackoverflow.com/questions/4117530/sys-argv1-meaning-in-script
+
+Understanding why python has assignments inside function parameters:
+http://pythoncentral.io/fun-with-python-function-parameters/
+
+urllib encoding:
+https://docs.python.org/2/library/urllib.html
+
 Contributors / Licensing
 ========================
 
