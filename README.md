@@ -9,6 +9,10 @@ Make a simple web-client like curl or wget
 
 Resources:
 
+I referenced Ryan Satyabrata's repo 
+(https://github.com/kobitoko/CMPUT404-assignment-web-client)
+Profile: (https://github.com/kobitoko)
+
 To learn what argv[0] meant in python:
 https://docs.python.org/2/library/sys.html
 and
@@ -19,6 +23,9 @@ http://pythoncentral.io/fun-with-python-function-parameters/
 
 urllib encoding:
 https://docs.python.org/2/library/urllib.html
+
+How to begin a GET connection as a client from the socket library:
+https://docs.python.org/2/library/socket.html#socket.socket.connect
 
 Contributors / Licensing
 ========================
