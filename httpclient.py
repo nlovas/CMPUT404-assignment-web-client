@@ -34,15 +34,64 @@ class HTTPResponse(object):
 
 class HTTPClient(object):
 
-    #def get_host_port(self,url):
+	def get_host_port(self,url):
+		#can sometimes be given 127.0.0.1:8080 ! so break it down and check
+		#referenced Ryan Satyabrata's repo to figure out how to check(https://github.com/kobitoko/CMPUT404-assignment-web-client)
+		ipPort = url.split(':')
+		print ipPort[0:]
+		if(len(ipPort) > 1):
+			return ipPort[1]
+		else:
+			return 80	
+			
+
+	def getRoot(self, url):
+	#check if its an ip or a regular url and return the root, but if it's an ip it will have the port at the end
+	#referenced Ryan Satyabrata's repo to figure out how to check(https://github.com/kobitoko/CMPUT404-assignment-web-client)
+		pieces = url.split('/')
+		#print pieces[0:]
+		if(pieces[0] == 'http:' or pieces[0] == 'https:'):
+			return pieces[2] 
+		else:
+			return pieces[0]
+
+	def checkIfIP(self, mayberoot):
+		root = mayberoot.split(':')
+		if(len(root)>1):
+			return root[0]
+		else:
+			return mayberoot
+		
+	def afterRoot(self, url, root):
+	#get the pages after the root url, if there are any
+	#in this case the port # is included for ips, we're looking for whats after it
+		pages = url.split('/')
+		i = 0
+		print "url: " + url + " root: " + root
+		print pages[0:]
+		#get the parts only after the one that == the root
+		for index in range(len(pages)):
+			if(pages[index] == root):
+				i = index
+				break
+		
+		#how to start a python for loop at a certain spot
+		#(http://stackoverflow.com/a/14053750)
+		#answered by Inbar Rose on Stack Overflow (http://stackoverflow.com/users/1561176/inbar-rose)
+		after = ""
+		for index in range(i, len(pages)):
+			if(pages[index] != ""):
+				after = after + "/" + pages[index]
+		print "after: " + after			
+		return after
+
 
 	def connect(self, host, port):
-
 		#from the example in https://docs.python.org/2/library/socket.html#socket.socket.connect
+		#print "host:" + host + " port: " + str(port)
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		s.connect((host, port))
-		#s.sendall('Hello, world')
-		return None
+		return s
 
 	def get_code(self, data):
 		return None
@@ -66,10 +115,15 @@ class HTTPClient(object):
 			return str(buffer)
 
 	def GET(self, url, args=None):
-		pieces = url.split('/')
-		#TODO something about ip addresses
-		print pieces[0:]
 		
+		rootURL = self.getRoot(url)
+		#pgs = self.afterRoot(url, rootURL)
+		hostPort = self.get_host_port(rootURL)		
+		rootURL = self.checkIfIP(rootURL) #get rid of a trailing port number if it's an ip		
+		s = self.connect(rootURL,int(hostPort))
+		#request = "GET" + 
+				
+
 		code = 500
 		body = ""
 		return HTTPResponse(code, body)
