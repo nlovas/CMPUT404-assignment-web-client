@@ -80,9 +80,11 @@ class HTTPClient(object):
 		#answered by Inbar Rose on Stack Overflow (http://stackoverflow.com/users/1561176/inbar-rose)
 		after = ""
 		for index in range(i, len(pages)):
-			if(pages[index] != ""):
+			print index
+			if(pages[index] != "" and pages[index]!=root):
 				after = after + "/" + pages[index]
-		print "after: " + after			
+		if (after == ""):
+			after = '/'			
 		return after
 
 
@@ -117,12 +119,14 @@ class HTTPClient(object):
 	def GET(self, url, args=None):
 		
 		rootURL = self.getRoot(url)
-		#pgs = self.afterRoot(url, rootURL)
+		pgs = self.afterRoot(url, rootURL)
 		hostPort = self.get_host_port(rootURL)		
 		rootURL = self.checkIfIP(rootURL) #get rid of a trailing port number if it's an ip		
 		s = self.connect(rootURL,int(hostPort))
-		#request = "GET" + 
-				
+		request = "GET" + pgs + "HTTP/1.1\r\n\r\n"
+		s.sendall(request)
+
+		response = self.recvall(s)
 
 		code = 500
 		body = ""
